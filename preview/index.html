@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>黄豆 · Huangdou Pet Preview</title>
+<style>
+  :root {font-family:system-ui,sans-serif;color:#26332a;background:#f5f3e8;color-scheme:light}
+  body {max-width:680px;margin:5vh auto;padding:24px}
+  h1 {font-size:2rem;margin-bottom:8px} p {line-height:1.7}
+  .stage {display:grid;place-items:center;min-height:280px;border:1px solid #d8d9c9;border-radius:20px;background:#fafaf6;margin:24px 0}
+  canvas {width:192px;height:208px;max-width:100%}
+  .controls {display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  select,button {font:inherit;padding:10px 14px;border:1px solid #abb7a8;border-radius:8px;background:white;color:#26332a}
+  button {cursor:pointer} :focus-visible {outline:3px solid #21675a;outline-offset:3px}
+  .note {font-size:.9rem;color:#576354}
+</style>
+<h1>黄豆 <span lang="en">Huangdou</span></h1>
+<p>全程折腰捧腹大笑。按实际精灵帧和时长预览，不做插帧或加速。</p>
+<div class="stage"><canvas id="pet" width="192" height="208" role="img" aria-label="黄豆动画预览"></canvas></div>
+<div class="controls">
+  <label for="state">动作</label>
+  <select id="state">
+    <option value="0">捧腹大笑</option><option value="1">向右跑</option><option value="2">向左跑</option>
+    <option value="3">挥手</option><option value="4">跳跃</option><option value="5">失落</option>
+    <option value="6">等待</option><option value="7">思考工作</option><option value="8">检查结果</option>
+    <option value="9">视线循环</option>
+  </select>
+  <button id="play" type="button">暂停</button>
+</div>
+<p id="status" class="note" aria-live="polite">正在加载…</p>
+<p class="note">待机格式固定六帧。本预览不代表客户端支持更高帧率。系统要求减少动态效果时，初始暂停；可手动播放。</p>
+<p><a href="../README.md">项目说明</a> · <a href="../assets/spritesheet.png">下载透明精灵图</a></p>
+<script>
+const durations=[[280,110,110,140,140,320],[120,120,120,120,120,120,120,220],[120,120,120,120,120,120,120,220],[140,140,140,280],[140,140,140,140,280],[140,140,140,140,140,140,140,240],[150,150,150,150,150,260],[120,120,120,120,120,220],[150,150,150,150,150,280],Array(16).fill(180)];
+const canvas=document.querySelector('#pet'),ctx=canvas.getContext('2d'),picker=document.querySelector('#state'),button=document.querySelector('#play'),status=document.querySelector('#status');
+const image=new Image();let state=0,frame=0,elapsed=0,last=0,ready=false,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+function draw(){if(!ready)return;const row=state===9?9+Math.floor(frame/8):state,col=state===9?frame%8:frame;ctx.clearRect(0,0,192,208);ctx.drawImage(image,col*192,row*208,192,208,0,0,192,208)}
+function label(){button.textContent=playing?'暂停':'播放';status.textContent=`${picker.options[picker.selectedIndex].text} · ${durations[state].length} 帧 · ${durations[state].reduce((a,b)=>a+b,0)} 毫秒/循环`}
+function tick(now){const delta=last?Math.min(now-last,100):0;last=now;if(playing&&ready){elapsed+=delta;while(elapsed>=durations[state][frame]){elapsed-=durations[state][frame];frame=(frame+1)%durations[state].length;draw()}}requestAnimationFrame(tick)}
+picker.addEventListener('change',()=>{state=Number(picker.value);frame=0;elapsed=0;draw();label()});button.addEventListener('click',()=>{playing=!playing;last=0;label()});
+document.addEventListener('visibilitychange',()=>{last=0});
+image.onload=()=>{ready=true;draw();label()};image.onerror=()=>{status.textContent='图片加载失败，请从仓库根目录启动 python -m http.server 8000 后访问 /preview/。';button.disabled=true};
+image.src='../assets/spritesheet.png';requestAnimationFrame(tick);
+</script>
+</html>

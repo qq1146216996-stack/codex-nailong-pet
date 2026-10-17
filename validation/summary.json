@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "schema": "v2",
+  "atlas_size": [
+    1536,
+    2288
+  ],
+  "required_cells": 73,
+  "transparent_unused_cells": 15,
+  "sha256": "df80325cc44d6abd602b67ade079a264149f979a189ea39fec1db2e8af32adf1",
+  "checks": {
+    "bundled_atlas_validation": true,
+    "bundled_quality_gate": true,
+    "pets_preflight": true,
+    "direction_blind_review": true,
+    "other_animation_rows_preserved": true
+  },
+  "idle_head_top_pixels": [
+    35,
+    38,
+    40,
+    42,
+    37,
+    36
+  ],
+  "idle_foot_baseline_pixels": [
+    202,
+    201,
+    202,
+    201,
+    201,
+    202
+  ],
+  "note": "All six idle frames stay bent forward; fixed six-frame playback format, no interpolation."
+}
