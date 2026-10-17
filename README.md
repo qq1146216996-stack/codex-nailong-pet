@@ -1,8 +1,8 @@
-# 奶龙 · Nai Long Pet
+# Codex 奶龙宠物 · Codex Nai Long Pet
 
-一个始终折腰、双手捧腹大笑的黄色小伙伴。包含透明动画精灵图、九种状态、十六个视线方向，以及可本地运行的预览和导出工具。
+面向 Codex 宠物的非官方奶龙（Nai Long）动画素材项目：始终折腰、双手捧腹大笑。包含透明动画精灵图、九种状态、十六个视线方向，以及可本地运行的预览和导出工具。
 
-An animated yellow companion with a continuous bent-forward belly laugh. This repository includes the transparent sprite atlas, nine animation states, sixteen gaze directions, and portable preview/export tools.
+An unofficial Nai Long animated companion for Codex Pets, with a continuous bent-forward belly laugh. This repository includes the transparent sprite atlas, nine animation states, sixteen gaze directions, and portable preview/export tools.
 
 ![折腰捧腹大笑](previews/laugh.gif)
 
